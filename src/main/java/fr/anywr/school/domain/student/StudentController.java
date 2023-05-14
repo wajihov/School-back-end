@@ -3,7 +3,6 @@ package fr.anywr.school.domain.student;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +47,7 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
     public Page<Student> getFilteredStudents(
             @RequestParam(required = false) String className,
             @RequestParam(required = false) String teacherName,

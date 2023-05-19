@@ -1,6 +1,6 @@
 package fr.anywr.school.core.config;
 
-import fr.anywr.school.domain.user.User;
+import fr.anywr.school.domain.auth.Auth;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtTokenUtil {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
 
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
@@ -18,9 +19,9 @@ public class JwtTokenUtil {
     @Value("${app.jwt.secret}")
     private String SECRET_KEY;
 
-    public String generateAccessToken(User user) {
+    public String generateAccessTokenAuth(Auth auth) {
         return Jwts.builder()
-                .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
+                .setSubject(String.format("%s,%s", auth.getId(), auth.getEmail()))
                 .setIssuer("CodeJava")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
@@ -33,9 +34,9 @@ public class JwtTokenUtil {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException ex) {
-            LOGGER.error("JWT expired", ex.getMessage());
+            LOGGER.error("JWT expired {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            LOGGER.error("Token is null, empty or only whitespace", ex.getMessage());
+            LOGGER.error("Token is null, empty or only whitespace {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
             LOGGER.error("JWT is invalid", ex);
         } catch (UnsupportedJwtException ex) {
@@ -43,7 +44,6 @@ public class JwtTokenUtil {
         } catch (SignatureException ex) {
             LOGGER.error("Signature validation failed");
         }
-
         return false;
     }
 

@@ -1,6 +1,6 @@
 package fr.anywr.school.core.config;
 
-import fr.anywr.school.domain.user.User;
+import fr.anywr.school.domain.auth.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,7 +47,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if (ObjectUtils.isEmpty(header) || !header.startsWith("Bearer")) {
             return false;
         }
-
         return true;
     }
 
@@ -70,10 +69,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private UserDetails getUserDetails(String token) {
-        User userDetails = new User();
+        Auth userDetails = new Auth();
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");
 
-        userDetails.setId(Integer.parseInt(jwtSubject[0]));
+        userDetails.setId(Long.parseLong(jwtSubject[0]));
         userDetails.setEmail(jwtSubject[1]);
 
         return userDetails;

@@ -1,7 +1,7 @@
 package fr.anywr.school.user;
 
-import fr.anywr.school.domain.user.User;
-import fr.anywr.school.domain.user.UserRepository;
+import fr.anywr.school.domain.auth.Auth;
+import fr.anywr.school.domain.auth.AuthRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -18,17 +18,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserRepositoryTests {
 
     @Autowired
-    private UserRepository repo;
+    private AuthRepository repo;
 
     @Test
-    public void testCreateUser() {
+    public void testCreateAuth() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = passwordEncoder.encode("user123");
 
-        User newUser = new User("wajihbfd@hotmail.fr", password);
-        User savedUser = repo.save(newUser);
+        Auth newUser = new Auth("samah@hotmail.fr", password, "samah");
+        Auth savedUser = repo.save(newUser);
 
         assertThat(savedUser).isNotNull();
         assertThat(savedUser.getId()).isGreaterThan(0);
     }
+
 }

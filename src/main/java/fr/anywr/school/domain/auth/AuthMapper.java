@@ -19,6 +19,7 @@ public class AuthMapper {
         auth.setName(auth.getName());
         auth.setEmail(authDto.getEmail());
         auth.setPassword(authDto.getPassword());
+        auth.setRole(authDto.getRole());
         return auth;
     }
 
@@ -31,6 +32,7 @@ public class AuthMapper {
                 .name(auth.getName())
                 .email(auth.getEmail())
                 .password(auth.getPassword())
+                .role(auth.getRole())
                 .build();
     }
 

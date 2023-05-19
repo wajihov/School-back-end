@@ -1,11 +1,12 @@
 package fr.anywr.school.domain.auth;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "authenticate")
@@ -23,14 +24,17 @@ public class Auth implements UserDetails {
 
     @Column(nullable = false, length = 64)
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Auth() {
     }
 
-    public Auth(String email, String password, String name) {
+    public Auth(String email, String password, String name, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.role = role;
     }
 
     public Long getId() {
@@ -49,7 +53,6 @@ public class Auth implements UserDetails {
         this.email = email;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -66,9 +69,17 @@ public class Auth implements UserDetails {
         this.name = name;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

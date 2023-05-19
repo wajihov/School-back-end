@@ -2,6 +2,7 @@ package fr.anywr.school.user;
 
 import fr.anywr.school.domain.auth.Auth;
 import fr.anywr.school.domain.auth.AuthRepository;
+import fr.anywr.school.domain.auth.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -25,7 +26,7 @@ public class UserRepositoryTests {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = passwordEncoder.encode("user123");
 
-        Auth newUser = new Auth("samah@hotmail.fr", password, "samah");
+        Auth newUser = new Auth("mohamed@hotmail.fr", password, "med", Role.USER);
         Auth savedUser = repo.save(newUser);
 
         assertThat(savedUser).isNotNull();

@@ -48,7 +48,7 @@ public class AuthService {
         if (authRepository.findByEmail(authDto.getEmail()).isPresent()) {
             throw new SchoolException(Codes.ERR_AUTHENTICATE_EMAIL_EXIST);
         } else {
-            Auth auth = new Auth(authDto.getEmail(), passwordEncoder(authDto.getPassword()), authDto.getName());
+            Auth auth = new Auth(authDto.getEmail(), passwordEncoder(authDto.getPassword()), authDto.getName(), authDto.getRole());
             auth = authRepository.save(auth);
             return authMapper.toDto(auth);
         }

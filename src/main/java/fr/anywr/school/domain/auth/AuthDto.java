@@ -28,4 +28,6 @@ public class AuthDto {
     @Length(min = 5, max = 10)
     private String password;
 
+    private Role role;
+
 }
